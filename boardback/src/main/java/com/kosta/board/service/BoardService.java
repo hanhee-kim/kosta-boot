@@ -21,4 +21,9 @@ public interface BoardService {
 	
 	//조회수
 	void boardViewPlus(Integer num)throws Exception;
+	
+	//좋아요
+	Boolean isHeartBoard(String id, Integer num) throws Exception;
+	void selHeartBoard(String id,Integer num) throws Exception;
+	void delHeartBoard(String id,Integer num) throws Exception;
 }

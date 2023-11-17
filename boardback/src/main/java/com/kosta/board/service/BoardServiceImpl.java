@@ -11,6 +11,7 @@ import org.springframework.util.FileCopyUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.kosta.board.dao.BoardDao;
+import com.kosta.board.dao.BoardLikeDao;
 import com.kosta.board.dto.Board;
 import com.kosta.board.dto.FileVo;
 import com.kosta.board.dto.PageInfo;
@@ -20,6 +21,8 @@ public class BoardServiceImpl implements BoardService {
 	
 	@Autowired
 	private BoardDao boardDao;
+	@Autowired
+	private BoardLikeDao boardLikeDao;
 	
 	// 게시판
 	@Override
@@ -201,6 +204,22 @@ public class BoardServiceImpl implements BoardService {
 	public void boardViewPlus(Integer num) throws Exception {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public Boolean isHeartBoard(String id, Integer num) throws Exception {
+		Integer heartNum = boardLikeDao.selectBoardLike(id, num);
+		return heartNum == null? false:true;
+	}
+
+	@Override
+	public void selHeartBoard(String id, Integer num) throws Exception {
+		boardLikeDao.insertBoardLike(id, num);
+	}
+
+	@Override
+	public void delHeartBoard(String id, Integer num) throws Exception {
+		boardLikeDao.deleteBoardLike(id, num);
 	}
 
 }

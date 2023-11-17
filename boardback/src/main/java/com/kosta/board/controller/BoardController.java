@@ -77,16 +77,20 @@ public class BoardController {
 	}
 	
 	@GetMapping("/boarddetail/{num}")
-	public ResponseEntity<Board> boardDetail(@PathVariable Integer num){
+	public ResponseEntity<Map<String,Object>> boardDetail(@PathVariable Integer num){
 		System.out.println("detail진입");
 		try {
 			Board board = boardService.boardDetail(num);
-			boardService.bo
-			System.out.println(board.getSubject());
-			return new ResponseEntity<Board>(board,HttpStatus.OK);
+			Boolean heart = boardService.isHeartBoard(null, num);
+			
+			Map<String,Object> res = new HashMap<String, Object>();
+			res.put("board", board);
+//			res.put("heart", heart);
+			res.put("heart", false);
+			return new ResponseEntity<Map<String,Object>>(res,HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return new ResponseEntity<Board>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<Map<String,Object>>(HttpStatus.BAD_REQUEST);
 		}
 	}
 	
