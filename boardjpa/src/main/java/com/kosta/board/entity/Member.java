@@ -9,7 +9,10 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.kosta.board.dto.MemberDto;
+
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -19,6 +22,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Member {
 	
 	@Id
@@ -42,4 +46,15 @@ public class Member {
 		return
 				String.format("[%s,%s,%s,%s,%s]", id,name,password,email,address);
 	}
+	
+	//Dto => Entity 로 변환
+		public MemberDto toDto() {
+			return MemberDto.builder()
+					.id(id)
+					.name(name)
+					.password(password)
+					.email(email)
+					.address(address)
+					.build();
+		} //build로 안하고 new~해서 사용해도 괜찮다.
 }

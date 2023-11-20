@@ -1,7 +1,21 @@
 package com.kosta.board.dto;
 
+
 import java.sql.Date;
 
+import com.kosta.board.entity.Board;
+import com.kosta.board.entity.Member;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class BoardDto {
 	private Integer num;
 	private String subject;
@@ -11,68 +25,23 @@ public class BoardDto {
 	private String writer;
 	private Integer viewcount;
 	private Integer likecount;
+	private String writername;
 	
-	public Integer getNum() {
-		return num;
+	public Board toEntity() {
+		//dto => Entity
+		// 엔티티의 속성을 생성하는것
+		// 내 변수를 사용하여 엔티티를 만들어주는것
+		return Board.builder()
+				.num(num)
+				.subject(subject)
+				.content(content)
+				.fileurl(fileurl)
+				.member(Member.builder().id(writer).build())
+				.viewcount(viewcount)
+				.likecount(num)
+				.writedate(writedate)
+				.build();
+				
 	}
-	
-	public void setNum(Integer num) {
-		this.num = num;
-	}
-	
-	public String getSubject() {
-		return subject;
-	}
-	
-	public void setSubject(String subject) {
-		this.subject = subject;
-	}
-	
-	public String getContent() {
-		return content;
-	}
-	
-	public void setContent(String content) {
-		this.content = content;
-	}
-	
-	public Date getWritedate() {
-		return writedate;
-	}
-	
-	public void setWritedate(Date writedate) {
-		this.writedate = writedate;
-	}
-	
-	public String getFileurl() {
-		return fileurl;
-	}
-	
-	public void setFileurl(String fileurl) {
-		this.fileurl = fileurl;
-	}
-	
-	public String getWriter() {
-		return writer;
-	}
-	
-	public void setWriter(String writer) {
-		this.writer = writer;
-	}
-	
-	public Integer getViewcount() {
-		return viewcount;
-	}
-	
-	public void setViewcount(Integer viewcount) {
-		this.viewcount = viewcount;
-	}
-	
-	public Integer getLikecount() {
-		return likecount;
-	}
-	
-	public void setLikecount(Integer likecount) {
-		this.likecount = likecount;
-	}
+
 }

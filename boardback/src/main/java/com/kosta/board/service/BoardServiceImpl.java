@@ -202,8 +202,7 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public void boardViewPlus(Integer num) throws Exception {
-		// TODO Auto-generated method stub
-		
+		boardDao.updateBoardViewCount(num);
 	}
 
 	@Override

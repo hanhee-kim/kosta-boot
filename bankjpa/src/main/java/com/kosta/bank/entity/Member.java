@@ -44,4 +44,5 @@ public class Member { //test 볼것
 				.build();
 	} //build로 안하고 new~해서 사용해도 괜찮다.
 	
+
 }
