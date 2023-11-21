@@ -27,6 +27,7 @@ public class Boardlike {
 	
 	
 	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "memberId")
 	private Member member;
 	
 	//
