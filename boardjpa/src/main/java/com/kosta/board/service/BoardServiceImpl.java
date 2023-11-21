@@ -236,13 +236,13 @@ String dir = "c:/khh/upload/";
 		Boolean isSelect;
 		if(boardLike.isPresent()) {	//이미 선택이 되어있으면
 			boardLikeRepository.deleteById(boardLike.get().getNum());
-			board.setLikecount(board.getLikecount()+1);
+			board.setLikecount(board.getLikecount()-1);
 			isSelect = false;
 		} else {	//선택되어있지 았았을경우
 			Boardlike newBoardLike =  Boardlike.builder().member(Member.builder().id(id).build())
 			.board(Board.builder().num(num).build()).build();
 			boardLikeRepository.save(newBoardLike);
-			board.setLikecount(board.getLikecount()-1);
+			board.setLikecount(board.getLikecount()+1);
 			isSelect = true;
 		}
 		boardRepository.save(board);
