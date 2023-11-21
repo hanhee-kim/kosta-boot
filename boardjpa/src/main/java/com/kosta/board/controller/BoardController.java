@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.kosta.board.dto.BoardDto;
+import com.kosta.board.entity.Boardlike;
 import com.kosta.board.service.BoardService;
 import com.kosta.board.util.PageInfo;
 
@@ -87,13 +88,13 @@ public class BoardController {
 			res.put("board", board);
 			if(sect.equals("only-detail")) {
 				boardService.boardViewPlus(num);
-				Boolean heart = boardService.isHeartBoard(null, num);
-//				res.put("heart", heart);
+				Boolean heart = boardService.isHeartBoard("pink", num);
+				res.put("heart", heart);
 				res.put("heart", false);
 				
 			} else if(sect.equals("after-modify")) {
-				Boolean heart = boardService.isHeartBoard(null, num);
-//			res.put("heart", heart);
+				Boolean heart = boardService.isHeartBoard("pink", num);
+				res.put("heart", heart);
 				res.put("heart", false);
 			}
 			
@@ -141,6 +142,22 @@ public class BoardController {
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@GetMapping("/boardlike/{num}")
+	public ResponseEntity<Map<String,Object>> boardLike(@PathVariable Integer num){
+		System.out.println("like 요청");
+		try {
+			Map<String,Object> res = new HashMap<>();
+			Boolean selectBoard = boardService.selHeartBoard("pink", num); //Id는 토큰처리한거 가져올것
+			res.put("isSelect", selectBoard);
+			Integer likeCount = boardService.boardDetail(num).getLikecount();
+			res.put("likeCount", likeCount);
+			return new ResponseEntity<Map<String,Object>>(res,HttpStatus.OK);
+		}catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<Map<String,Object>>(HttpStatus.BAD_REQUEST);
 		}
 	}
 	

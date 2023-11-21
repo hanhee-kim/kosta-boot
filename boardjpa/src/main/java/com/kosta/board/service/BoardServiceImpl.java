@@ -17,7 +17,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.kosta.board.dto.BoardDto;
 import com.kosta.board.entity.Board;
+import com.kosta.board.entity.Boardlike;
 import com.kosta.board.entity.FileVo;
+import com.kosta.board.entity.Member;
+import com.kosta.board.repository.BoardLikeRepository;
 import com.kosta.board.repository.BoardRepository;
 import com.kosta.board.repository.FileVoRepository;
 import com.kosta.board.util.PageInfo;
@@ -29,6 +32,8 @@ public class BoardServiceImpl implements BoardService {
 	private BoardRepository boardRepository;
 	@Autowired
 	private FileVoRepository fileVoRepository;
+	@Autowired
+	private BoardLikeRepository boardLikeRepository;
 
 	@Override
 	public List<BoardDto> boardListByPage(PageInfo pageInfo) throws Exception {
@@ -216,14 +221,32 @@ String dir = "c:/khh/upload/";
 
 	@Override
 	public Boolean isHeartBoard(String id, Integer num) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		Optional<Boardlike> boardLike = boardLikeRepository.findByMember_idAndBoard_num(id, num);
+		if(boardLike.isPresent()) {
+			return true;
+		}else {
+			return false;
+		}
 	}
 
 	@Override
-	public void selHeartBoard(String id, Integer num) throws Exception {
-		// TODO Auto-generated method stub
-
+	public Boolean selHeartBoard(String id, Integer num) throws Exception {
+		Optional<Boardlike> boardLike = boardLikeRepository.findByMember_idAndBoard_num(id, num);
+		Board board = boardRepository.findById(num).get();
+		Boolean isSelect;
+		if(boardLike.isPresent()) {	//이미 선택이 되어있으면
+			boardLikeRepository.deleteById(boardLike.get().getNum());
+			board.setLikecount(board.getLikecount()+1);
+			isSelect = false;
+		} else {	//선택되어있지 았았을경우
+			Boardlike newBoardLike =  Boardlike.builder().member(Member.builder().id(id).build())
+			.board(Board.builder().num(num).build()).build();
+			boardLikeRepository.save(newBoardLike);
+			board.setLikecount(board.getLikecount()-1);
+			isSelect = true;
+		}
+		boardRepository.save(board);
+		return isSelect;
 	}
 
 	@Override

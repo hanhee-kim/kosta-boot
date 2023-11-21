@@ -38,8 +38,12 @@ public class Member {
 	private String address;
 	
 	//한사람이 여러 게시글리스트를 작성하기때문에 멤버입장에서는 일 대 다 관계
-	@OneToMany(mappedBy = "member",fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "member",fetch = FetchType.LAZY)
 	private List<Board> boardList = new ArrayList<Board>();
+	
+	@OneToMany(mappedBy = "member",fetch = FetchType.LAZY)
+	private List<Boardlike> boardLikeList = new ArrayList<Boardlike>();
+	
 	
 	@Override
 	public String toString() {
