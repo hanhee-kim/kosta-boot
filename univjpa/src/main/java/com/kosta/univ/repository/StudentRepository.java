@@ -1,6 +1,7 @@
 package com.kosta.univ.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -10,6 +11,9 @@ public interface StudentRepository extends JpaRepository<Student, Integer>{
 
 	List<Student> findByName(String name);
 	List<Student> findByDepartment1_deptno(Integer deptno);
-//	List<Student> findByDeptno1(Integer deptno1);
-//	List<Student> findByDeptno2(Integer deptno2);
+	List<Student> findByGrade(Integer grade);
+	List<Student> findByProfessor_profnoIsNull();
+	Optional<Student> findByJumin(String jumin);
+	List<Student> findByProfessor_profno(Integer profno);
+	List<Student> findByProfessor_name(String name);
 }

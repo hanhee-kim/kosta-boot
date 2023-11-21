@@ -20,7 +20,7 @@ public interface UnivService {
 	
 	//학번으로 학생 조회
 	Student studentByStudno(Integer studno) throws Exception;
-	//주민번호로 학생 조ㅓ회
+	//주민번호로 학생 조회
 	Student studentByJumin(String jumin) throws Exception;
 	
 	//교수번호로 담당 학생목록 조회
