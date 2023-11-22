@@ -9,6 +9,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.kosta.board.entiry.Board;
+import com.kosta.board.entiry.Boardlike;
 import com.kosta.board.entiry.Member;
 import com.kosta.board.repository.BoardDslRepository;
 import com.kosta.board.repository.MemberRepository;
@@ -59,26 +60,30 @@ public class BoardServiceImpl implements BoardService{
 
 	@Override
 	public Member memberByBoardNum(Integer num) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		Member member = boardDslRepository.findMemberByBoardNum(num);
+		if(member == null) throw new Exception("게시글 번호 오류");
+		return member;
 	}
 
 	@Override
 	public Board boardInfo(Integer num) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		Board board = boardDslRepository.findBoardByBoardNum(num);
+		if(board == null)throw new Exception("게시글 번호 오류");
+		return board;
 	}
 
 	@Override
 	public List<Board> boardListByWriterId(String id) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		List<Board> boardList = boardDslRepository.findBoardListByWriterId(id);
+		if(boardList.isEmpty())throw new Exception("작성자 아이디 오류");
+		return boardList;
 	}
 
 	@Override
-	public List<Board> boardListByWriterName(String id) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Board> boardListByWriterName(String name) throws Exception {
+		List<Board> boardList = boardDslRepository.findBoardListByWriterName(name);
+		if(boardList.isEmpty())throw new Exception("작성자 이름 오류");
+		return boardList;
 	}
 
 	@Override
@@ -103,20 +108,28 @@ public class BoardServiceImpl implements BoardService{
 
 	@Override
 	public Long boardCount() throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		Long boardCnt = boardDslRepository.findBoardCount();
+		return boardCnt;
 	}
 
 	@Override
 	public Boolean selectBoardLike(String id, Integer num) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		Boardlike boardLike = boardDslRepository.findBoardlike(id, num);
+		if(boardLike == null) {
+			return false;
+		}else {
+			return true;
+		}
 	}
 
 	@Override
 	public Boolean isSelectedBoardLike(String id, Integer num) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		Long boardLikeCnt = boardDslRepository.findIsBoardlike(id, num);
+		if(boardLikeCnt == null) {
+			return false;
+		} else {
+			return true;
+		}
 	}
 
 }
