@@ -72,6 +72,14 @@ class UnivjpaApplicationTests {
 			System.out.println(stu);
 		}
 	}
+	
+//	@Test
+//	void noProf() {
+//		List<Student> stu = studentRepository.findByProfessorNull();
+//		System.out.println(stu);
+//	}
+	
+	
 	@Test
 	void studentByStudno() {
 		try {
