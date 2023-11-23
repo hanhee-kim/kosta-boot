@@ -20,7 +20,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 public class UnivRepository {
 	@Autowired
 	private JPAQueryFactory jpaQueryFactory;
-	
+	//3
 	public Tuple findStudentNoWithDeptNameByStudno(Integer studno)throws Exception {
 		QStudent student = QStudent.student;
 		QDepartment dept = QDepartment.department;
@@ -28,13 +28,15 @@ public class UnivRepository {
 		Tuple tuple = jpaQueryFactory.select(student.studno,dept.dname)
 		.from(student)
 		.join(dept)
-		.on(student.deptno1.eq(dept.deptno).or(student.deptno2.eq(dept.deptno)))
+		.on(student.deptno1.eq(dept.deptno)
+//				.or(student.deptno2.eq(dept.deptno))
+				)
 		.where(student.studno.eq(studno))
 		.fetchOne();
 		return tuple;
 	}
-	
-	public Tuple findStudentByNoWithDeptName(Integer studno) throws Exception{
+	//4
+	public Tuple findStudentByNoWithProfName(Integer studno) throws Exception{
 		QStudent student = QStudent.student;
 		QProfessor prof = QProfessor.professor;
 		
@@ -46,7 +48,7 @@ public class UnivRepository {
 				.fetchOne();
 		return tuple;
 	}
-	
+	//5
 	public Tuple findStudentByNoWithDeptNameAndProfName(Integer studno) throws Exception{
 		QStudent stud = QStudent.student;
 		QDepartment dept = QDepartment.department;
@@ -62,10 +64,11 @@ public class UnivRepository {
 				.fetchOne();
 		return tuple;
 	}
+	//7
 	public List<Student> findStudentByDeptno(Integer deptno) throws Exception{
 		QStudent stud = QStudent.student;
 		List<Student> stuList = jpaQueryFactory
-		.selectFrom(stud)
+		.selectFrom(stud).distinct()
 		.where(
 				stud.deptno1.eq(deptno)
 				.or(
@@ -75,7 +78,7 @@ public class UnivRepository {
 		.fetch();
 		return stuList;
 	}
-	
+	//8
 	public List<Student> findStudentByDeptName(String deptName) throws Exception {
 		QStudent stud = QStudent.student;
 		QDepartment dept = QDepartment.department;
@@ -134,26 +137,38 @@ public class UnivRepository {
 				.fetch();
 		return stuList;
 	}
+	//강사님 코드
+//	public List<Student> findStudentListByDeptName1OrDeptName2(String deptName1,String deptName2) {
+//		QStudent student = QStudent.student;
+//		QDepartment department1 = new QDepartment("department1");
+//		QDepartment department2 = new QDepartment("department2");
+//		return jpaQueryFactory.selectFrom(student)
+//				.join(department1)
+//				.on(student.deptno1.eq(department1.deptno))
+//				.leftJoin(department2)
+//				.on(student.deptno2.eq(department2.deptno))
+//				.where(department1.dname.eq(deptName1).or(department2.dname.eq(deptName2)))
+//				.fetch();
+//	}
 
 
 //	//14.주전공이나 부전공이 특정학과이름인 학생 조회
 //	List<Student> get;
-	public List<Student> findStudentByDeptName1OrDeptName2(String deptName)throws Exception{
-		QDepartment dept = QDepartment.department;
-		QStudent stud = QStudent.student;
-		List<Student> stuList = jpaQueryFactory
-				.select(stud).distinct()
-				.join(dept)
-				.on(stud.deptno1.eq(dept.deptno).or(stud.deptno2.eq(dept.deptno)))
+	//강사님 코드
+	public List<Student> findStudentListByDeptName1OrDeptName2(String deptName) {
+		QStudent student = QStudent.student;
+		QDepartment department1 = new QDepartment("department1");
+		QDepartment department2 = new QDepartment("department2");
+		return jpaQueryFactory.selectFrom(student)
+				.join(department1)
+				.on(student.deptno1.eq(department1.deptno))//dept1조인
+				.leftJoin(department2)
+				.on(student.deptno2.eq(department2.deptno))//dept2조인
 				.where(
-						stud.deptno1.eq(dept.deptno).and(dept.dname.eq(deptName))
-						.or(
-							stud.deptno2.eq(dept.deptno).and(dept.dname.eq(deptName))
-								)
+						department1.dname.eq(deptName)//dept1에서 찾고
+						.or(department2.dname.eq(deptName))//dept2에서 찾고
 						)
 				.fetch();
-		return stuList;
-				
 	}
 //	//19.교수번호로 교수정보 조회(학과명 포함)
 	public Tuple findProfessorByProfnoWithDeptName(Integer profno) throws Exception{

@@ -58,21 +58,21 @@ public class UnivServiceImpl implements UnivService{
 		if(tuple == null) {
 			throw new Exception("학생번호가 이상하다");
 		} else {
-		res.put("studno", tuple.get(0, Integer.class));
+		res.put("studNo", tuple.get(0, Integer.class));
 		res.put("deptName", tuple.get(1, String.class));
 		return res;
 		}
 	}
-
+//	4
 	@Override
 	public Map<String, Object> getstudentByNoWithProfName(Integer studno) throws Exception {
-		Tuple tuple = univRepository.findStudentByNoWithDeptNameAndProfName(studno);
+		Tuple tuple = univRepository.findStudentByNoWithProfName(studno);
 		Map<String,Object> res = new HashMap<String, Object>();
 		if(tuple == null) {
 			throw new Exception("학생번호가 이상하다");
 		} else {
-			res.put("studno", tuple.get(0, Integer.class));
-			res.put("profName", tuple.get(0,String.class));
+			res.put("studNo", tuple.get(0, Integer.class));
+			res.put("profName", tuple.get(1,String.class));
 			return res;
 		}
 	}
@@ -84,7 +84,7 @@ public class UnivServiceImpl implements UnivService{
 		if(tuple == null) {
 			throw new Exception("학생번호가 이상하다");
 		} else {
-			res.put("studno", tuple.get(0, Integer.class));
+			res.put("studNo", tuple.get(0, Integer.class));
 			res.put("deptName", tuple.get(1, String.class));
 			res.put("profName", tuple.get(2,String.class));
 			return res;
@@ -174,14 +174,14 @@ public class UnivServiceImpl implements UnivService{
 
 	@Override
 	public List<Student> getStudentByDeptName1OrDeptName2(String deptName) throws Exception {
-		List<Student> studentList = univRepository.findStudentByDeptName1OrDeptName2(deptName);
+		List<Student> studentList = univRepository.findStudentListByDeptName1OrDeptName2(deptName);
 		if(studentList.isEmpty()) {
 			throw new Exception("학과이름 오류");
 		} else {
 			return studentList;
 		}
 	}
-
+//17
 	@Override
 	public List<Student> getStudentByProfessorNo(Integer profno) throws Exception {
 		List<Student> studentList = studentRepository.findByProfno(profno);
@@ -222,7 +222,7 @@ public class UnivServiceImpl implements UnivService{
 			return profList;
 		}
 	}
-
+//19
 	@Override
 	public Map<String, Object> getProfessorByProfnoWithDeptName(Integer profno) throws Exception {
 		Tuple tuple = univRepository.findProfessorByProfnoWithDeptName(profno);
@@ -235,7 +235,7 @@ public class UnivServiceImpl implements UnivService{
 			return res;
 		}
 	}
-
+//20
 	@Override
 	public Professor getProfessorByStudno(Integer studno) throws Exception {
 		Professor prof = univRepository.findProfessorByStudno(studno);
@@ -245,7 +245,7 @@ public class UnivServiceImpl implements UnivService{
 			return prof;
 		}
 	}
-
+//21
 	@Override
 	public List<Professor> getProfessorByDeptno(Integer deptno) throws Exception {
 		List<Professor> profList = univRepository.findProfessorByDeptno(deptno);
@@ -255,7 +255,7 @@ public class UnivServiceImpl implements UnivService{
 			return profList;
 		}
 	}
-
+//22
 	@Override
 	public List<Professor> getProfessorByDeptName(String deptName) throws Exception {
 		List<Professor> profList = univRepository.findProfessorByDeptName(deptName);
@@ -265,7 +265,7 @@ public class UnivServiceImpl implements UnivService{
 			return profList;
 		}
 	}
-
+//23
 	@Override
 	public void foundDepartment(Department dept) throws Exception {
 		Optional<Department> Odept = departmentRepository.findById(dept.getDeptno());
@@ -275,7 +275,7 @@ public class UnivServiceImpl implements UnivService{
 			throw new Exception("기존에 학과번호가 존재합니다.");
 		}
 	}
-
+//24
 	@Override
 	public Department getDepartmentByDeptno(Integer deptno) throws Exception {
 		Optional<Department> Odept = departmentRepository.findById(deptno);
@@ -287,8 +287,8 @@ public class UnivServiceImpl implements UnivService{
 	}
 
 	@Override
-	public Department getDepartmentByDeptName(String name) throws Exception {
-		Optional<Department> Odept = departmentRepository.findByName(name);
+	public Department getDepartmentByDeptName(String dname) throws Exception {
+		Optional<Department> Odept = departmentRepository.findByDname(dname);
 		if(Odept.isEmpty()) {
 			throw new Exception("학과이름 오류");
 		}else {
