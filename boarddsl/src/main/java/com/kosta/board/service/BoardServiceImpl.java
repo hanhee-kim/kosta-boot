@@ -12,6 +12,8 @@ import com.kosta.board.entiry.Board;
 import com.kosta.board.entiry.Boardlike;
 import com.kosta.board.entiry.Member;
 import com.kosta.board.repository.BoardDslRepository;
+import com.kosta.board.repository.BoardRepository;
+import com.kosta.board.repository.BoardlikeRepository;
 import com.kosta.board.repository.MemberRepository;
 import com.kosta.board.util.PageInfo;
 import com.querydsl.core.Tuple;
@@ -21,7 +23,11 @@ public class BoardServiceImpl implements BoardService{
 	private BoardDslRepository boardDslRepository;
 	@Autowired
 	private MemberRepository memberRepository;
-
+	@Autowired
+	private BoardRepository boardRepository;
+	@Autowired
+	private BoardlikeRepository boardlikeRepository;
+	
 	@Override
 	public Member memberInfo(String id) throws Exception {
 		return boardDslRepository.findMemberByMemberId(id);
@@ -114,11 +120,21 @@ public class BoardServiceImpl implements BoardService{
 
 	@Override
 	public Boolean selectBoardLike(String id, Integer num) throws Exception {
+		Board board = boardRepository.findById(num).get();
 		Boardlike boardLike = boardDslRepository.findBoardlike(id, num);
 		if(boardLike == null) {
-			return false;
-		}else {
+			boardlikeRepository.save(Boardlike.builder()
+					.member_id(id)
+					.board_num(num)
+					.build());
+			board.setLikecount(board.getLikecount()+1);	
+			boardRepository.save(board);
 			return true;
+		}else {
+			boardlikeRepository.deleteById(boardLike.getNum());
+			board.setLikecount(board.getLikecount()-1);	
+			boardRepository.save(board);
+			return false;
 		}
 	}
 
@@ -130,6 +146,13 @@ public class BoardServiceImpl implements BoardService{
 		} else {
 			return true;
 		}
+	}
+
+	@Override
+	public void plusViesCount(Integer num) throws Exception {
+		Board board = boardRepository.findById(num).get();
+		board.setViewcount(board.getViewcount()+1);
+		boardRepository.save(board);
 	}
 
 }

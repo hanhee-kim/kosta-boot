@@ -1,4 +1,4 @@
-package com.kosta.board.config;
+package com.kosta.univ.config;
 
 import javax.persistence.EntityManager;
 

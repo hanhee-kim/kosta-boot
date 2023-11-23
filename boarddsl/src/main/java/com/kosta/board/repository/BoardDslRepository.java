@@ -130,4 +130,10 @@ public class BoardDslRepository {
 				.where(boardlike.member_id.eq(id).and(boardlike.board_num.eq(num)))
 				.fetchOne();
 	}
+	
+//	public void updatePlusBoardViewCount(Integer num) throws Exception{
+//		QBoard board = QBoard.board;
+//		jpaQueryFactory.update(board)
+//				.set(board.viewcount, null)
+//	}
 }

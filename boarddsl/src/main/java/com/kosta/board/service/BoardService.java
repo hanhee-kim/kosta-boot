@@ -22,5 +22,5 @@ public interface BoardService {
 	Long boardCount() throws Exception;
 	Boolean selectBoardLike(String id,Integer num) throws Exception;
 	Boolean isSelectedBoardLike(String id,Integer num) throws Exception;
-	
+	void plusViesCount(Integer num) throws Exception;
 }
