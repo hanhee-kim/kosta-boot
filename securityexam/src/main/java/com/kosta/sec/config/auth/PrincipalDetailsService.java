@@ -1,4 +1,4 @@
-package com.kosta.sec.auth;
+package com.kosta.sec.config.auth;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;

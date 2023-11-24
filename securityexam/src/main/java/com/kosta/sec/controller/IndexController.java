@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.kosta.sec.auth.PrincipalDetails;
+import com.kosta.sec.config.auth.PrincipalDetails;
 import com.kosta.sec.entity.User;
 import com.kosta.sec.repository.UserRepository;
 
@@ -36,12 +36,15 @@ public class IndexController {
 		return "인덱스 페이지입니다.";
 	}
 	
+	//사용자로부터받은게 아니라 세션에 있는걸 얻어온 것
 	@GetMapping("/user")
 	@ResponseBody
 	public String user(@AuthenticationPrincipal PrincipalDetails principal) { //principaldeatilsServie에서 넘긴 세션을 @사용해서 가져다씀
 		System.out.println("principal : "+ principal);
 		System.out.println(principal.getPassword());
 		System.out.println(principal.getUsername());
+		System.out.println(principal.getUser().getProvider());
+		System.out.println(principal.getUser().getProviderId());
 		Iterator<? extends GrantedAuthority> iter = principal.getAuthorities().iterator();
 		while(iter.hasNext()) {
 			GrantedAuthority auth = iter.next();

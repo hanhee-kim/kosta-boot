@@ -12,6 +12,7 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -21,6 +22,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @DynamicInsert
 @DynamicUpdate
+@Builder
 public class User {
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
@@ -29,6 +31,10 @@ public class User {
 	private String password;
 	private String email;
 	private String roles;
+	//소셜로그인인지 확인하기 위한 정보
+	private String provider;
+	private String providerId;
+	
 	@CreationTimestamp
 	private Timestamp createDate;	//sql 꺼 
 
