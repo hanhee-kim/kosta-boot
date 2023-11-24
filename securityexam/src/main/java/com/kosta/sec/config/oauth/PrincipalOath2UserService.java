@@ -36,6 +36,8 @@ public class PrincipalOath2UserService extends DefaultOAuth2UserService{
 //		System.out.println("tokenValue:"+token.getTokenValue());
 //		System.out.println("regist:"+regist);
 //		System.out.println("oAuth2User:"+oAuth2User);
+		System.out.println(oAuth2User);
+		System.out.println(oAuth2User.getAttributes());
 		return pricessOAuth2User(userRequest,oAuth2User);
 		
 		
@@ -47,8 +49,9 @@ public class PrincipalOath2UserService extends DefaultOAuth2UserService{
 			System.out.println("네이버 로그인 요청");
 			oAuth2UserInfo = new NaverUserInfo(oAuth2User.getAttribute("response"));
 		} else if(userRequest.getClientRegistration().getRegistrationId().equals("kakao")) {
-			
 			System.out.println("카카오 로그인 요청");
+			oAuth2UserInfo = new KakaoUserInfo(oAuth2User.getAttribute("properties"));
+			
 		} else {
 			System.out.println("네이버와 카카오만 지원합니다.");
 		}
