@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>로그인 페이지</title>
+</head>
+<body>
+<h1>로그인 페이지</h1>
+<hr/>
+<!-- 시큐리티는 x-www-form-url-encoded 타입만 인식 -->
+<!-- 시큐리티컨피그에 /loginProc을 프로세스URL에 작성해놔서 그냥 넘어가지 않는다(컨트롤러에 맵핑되어있어도 시큐리티가 가로챔) -->
+<form action="/loginProc" method="post">
+	<input type="text" name="username" />
+	<input type="password" name="password" />
+	<button>로그인</button>
+</form>
+</body>
+</html>
