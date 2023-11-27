@@ -40,7 +40,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
          .and()
          .formLogin()
          .loginPage("/login")	//내가 만든 로그인 페이지를 사용할것이기 때문에 컨트롤러로 /login 요청을 보낸다.
-         .loginProcessingUrl("/loginProc")	
+         .loginProcessingUrl("/loginProc")	//PrincipalDetailsService로감
          .defaultSuccessUrl("/")		//요청된 이전페이지로 가는 효과?예를 들면 글쓰기->로그인->글쓰기가도록
          .and()
          .oauth2Login()   		//OAuth2
